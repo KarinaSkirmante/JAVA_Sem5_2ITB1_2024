@@ -93,5 +93,12 @@ public class FirstController {
 		}
 
 	}
+	
+	
+	//TODO
+	//1. izveido getMapping funkciju, kas atvērs html lapu
+	//2. izveidojam html lapu, kura būs 4 ievades lauki un viena submit poga
+	//3. izveido postmapping funkciju, kura nolasa Product, aks nāk no html 
+	//un ar servisa palīdzību saglabā
 
 }
