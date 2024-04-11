@@ -16,13 +16,13 @@ import lv.venta.model.Product;
 @Controller
 public class FirstController {
 	
-	Product myProduct1 = new Product("Abols", "Sarkans", 0.99f, 5);
+	/*Product myProduct1 = new Product("Abols", "Sarkans", 0.99f, 5);
 	Product myProduct2 = new Product("Zemene", "Salda", 1.23f, 3);
 	Product myProduct3 = new Product("Arbuzs", "Roza", 3.99f, 2);
 	ArrayList<Product> allProducts = 
 			new ArrayList<>(Arrays.asList(myProduct1,myProduct2, myProduct3 ));
 
-	
+	*/
 	
 	@GetMapping("/hello") //localhost:8080/hello
 	public String getHello() {

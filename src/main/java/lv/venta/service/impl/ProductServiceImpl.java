@@ -11,6 +11,65 @@ import lv.venta.service.IFilterProductService;
 @Service
 public class ProductServiceImpl implements ICRUDProductService, IFilterProductService{
 
+	
+	private ArrayList<Product> allProducts = new ArrayList<>();
+	
+	@Override
+	public Product create(Product product) throws Exception {
+		if(product == null) throw new Exception("Product is null");
+		
+		for(Product tempP: allProducts) {
+			if(tempP.getTitle().equals(product.getTitle()) &&
+					tempP.getDescription().equals(product.getDescription()) &&
+					tempP.getPrice() == product.getPrice()) {
+				tempP.setQuantity(tempP.getQuantity() + product.getQuantity());
+				return tempP;
+			}
+		}
+		
+		Product newProduct = new Product(product.getTitle(), product.getDescription(),
+				product.getPrice(), product.getQuantity());
+		allProducts.add(newProduct);
+		return newProduct;
+	}
+
+	@Override
+	public ArrayList<Product> retrieveAll() throws Exception {
+		if(allProducts.isEmpty()) throw new Exception("Product list is empty");
+		return allProducts;
+	}
+
+	@Override
+	public Product retrieveById(int id) throws Exception {
+		if(id < 0) throw new Exception("Id should be positive");
+		
+		for(Product tempP: allProducts) {
+			if(tempP.getId() == id) {
+				return tempP;
+			}
+		}
+		
+		throw new Exception("Product with " + id + " is not found");
+	}
+
+	@Override
+	public void updateById(int id, Product product) throws Exception {
+		Product updateProduct = retrieveById(id);
+		
+		updateProduct.setTitle(product.getTitle());
+		updateProduct.setDescription(product.getDescription());
+		updateProduct.setQuantity(product.getQuantity());
+		updateProduct.setPrice(product.getPrice());
+				
+	}
+
+	@Override
+	public Product deleteById(int id) throws Exception {
+		Product deleteProduct = retrieveById(id);
+		allProducts.remove(deleteProduct);
+		return deleteProduct;	
+	}
+
 	@Override
 	public ArrayList<Product> filterProductByPriceThreshold(float priceThreshold) throws Exception {
 		// TODO Auto-generated method stub
@@ -25,36 +84,6 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 
 	@Override
 	public ArrayList<Product> filterByTitleOrDescription(String title, String description) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Product create(Product product) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Product> retrieveAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Product retrieveById(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateById(int id, Product product) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Product deleteById(int id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
