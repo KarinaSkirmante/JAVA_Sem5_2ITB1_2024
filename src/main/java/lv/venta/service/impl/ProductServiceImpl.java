@@ -72,20 +72,48 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 
 	@Override
 	public ArrayList<Product> filterProductByPriceThreshold(float priceThreshold) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(priceThreshold < 0 || priceThreshold > 10000) throw new Exception("Wrong price threshold");
+		
+		ArrayList<Product> filteredProducts = new ArrayList<>();
+		for(Product tempP: allProducts)
+		{
+			if(tempP.getPrice() <= priceThreshold) {
+				filteredProducts.add(tempP);
+			}
+		}
+		
+		return filteredProducts;
+		
 	}
 
 	@Override
 	public ArrayList<Product> filterProductByQuantityThreshold(int quantityThreshold) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(quantityThreshold < 0 || quantityThreshold > 100) throw new Exception("Wrong quantity threshold");
+		
+		ArrayList<Product> filteredProducts = new ArrayList<>();
+		for(Product tempP: allProducts)
+		{
+			if(tempP.getQuantity() <= quantityThreshold) {
+				filteredProducts.add(tempP);
+			}
+		}
+		
+		return filteredProducts;
 	}
 
 	@Override
-	public ArrayList<Product> filterByTitleOrDescription(String title, String description) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Product> filterByTitleOrDescription(String searchText) throws Exception {
+		if(searchText == null) throw new Exception("Wrong search text");
+		ArrayList<Product> filteredProducts = new ArrayList<>();
+		for(Product tempP: allProducts)
+		{
+			if(tempP.getTitle().contains(searchText) ||
+					tempP.getDescription().contains(searchText)) {
+				filteredProducts.add(tempP);
+			}
+		}
+		
+		return filteredProducts;	
 	}
 
 }
