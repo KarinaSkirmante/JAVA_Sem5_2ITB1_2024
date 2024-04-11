@@ -1,6 +1,7 @@
 package lv.venta.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,11 @@ import lv.venta.service.IFilterProductService;
 public class ProductServiceImpl implements ICRUDProductService, IFilterProductService{
 
 	
-	private ArrayList<Product> allProducts = new ArrayList<>();
+	private ArrayList<Product> allProducts = new ArrayList<>(
+			Arrays.asList(
+					new Product("Abols", "Sarkans", 0.99f, 5),
+					new Product("Zemene", "Salda", 1.23f, 3),
+					new Product("Arbuzs", "Roza", 3.99f, 2)));
 	
 	@Override
 	public Product create(Product product) throws Exception {
