@@ -23,12 +23,12 @@ public class Product {
 	private static int counter = 0;
 	
 	@NotNull
-	@Pattern(regexp = "[A-Z]{1}[a-z ]+")
+	@Pattern(regexp = "[A-Z]{1}[a-z ]+", message = "Only letters and space")
 	@Size(min = 3, max = 20)
 	private String title;
 	
 	@NotNull
-	@Pattern(regexp = "[A-Za-z]+")
+	@Pattern(regexp = "[A-Za-z ]+")
 	@Size(min = 4, max = 200)
 	private String description;
 	
