@@ -121,4 +121,15 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 		return filteredProducts;	
 	}
 
+	@Override
+	public float calculateProductsTotalValue() throws Exception {
+		if(allProducts.isEmpty()) throw new Exception("There is no product in my web");
+
+		float result = 0;
+		for(Product tempP : allProducts) {
+			result+=tempP.getPrice() * tempP.getQuantity();
+		}
+		return result;
+	}
+
 }

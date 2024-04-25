@@ -15,4 +15,7 @@ public interface IFilterProductService {
 	public abstract ArrayList<Product>
 	filterByTitleOrDescription(String searchText) throws Exception;
 	
+	public abstract float 
+	calculateProductsTotalValue() throws Exception;
+	
 }
