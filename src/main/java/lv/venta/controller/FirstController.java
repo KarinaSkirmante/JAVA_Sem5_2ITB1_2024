@@ -119,8 +119,57 @@ public class FirstController {
 		return "error-page";
 	}
 
-	// 2. izveidojam html lapu, kura būs 4 ievades lauki un viena submit poga
-	// 3. izveido postmapping funkciju, kura nolasa Product, aks nāk no html
-	// un ar servisa palīdzību saglabā
+
+	
+	@GetMapping("/product/update") //localhost:8080/product/update?id=2
+	public String getProductUpateById(@RequestParam("id") int id, Model model ) {
+		
+		try {
+			Product product = crudService.retrieveById(id);
+			model.addAttribute("product", product);
+			model.addAttribute("id", id);
+			return "update-product-page";//tiek parādīta update-product-page.html lapa
+				
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+			return "error-page"; // tiek parādīta error-page.html lapa
+		}
+		
+		
+	}
+	
+	
+	@PostMapping("/product/update")
+	public String postProductInsert(@RequestParam("id") int id,  @Valid Product product, BindingResult result, Model model) {// iegūst redigēto produktu
+
+		if (result.hasErrors()) {
+			model.addAttribute("id", id);
+			return "update-product-page";
+		} else {
+
+			try {
+				crudService.updateById(id, product);
+				return "redirect:/product/all/" + id;
+			} catch (Exception e) {
+				return "redirect:/error";// pārlec uz citu endpointu
+			}
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

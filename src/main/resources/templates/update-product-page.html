@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<p>Lūdzu ievadiet produktu</p>
+	<form action="#" th:action="@{/product/update?id=__${id}__}" th:object="${product}" th:method="post"  >
+		
+		<table>
+			<tr>
+				<td>Nosaukums</td>
+				<td> <input type="text" th:field="*{title}"  />  </td>
+				<td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"  ></td>
+			</tr>
+			
+			<tr>
+				<td>Apraksts</td>
+				<td> <input type="text" th:field="*{description}"  />  </td>
+				<td th:if="${#fields.hasErrors('description')}" th:errors="*{description}"  ></td>
+			</tr>
+			
+			<tr>
+				<td>Cena</td>
+				<td> <input type="text" th:field="*{price}"  />  </td>
+				<td th:if="${#fields.hasErrors('price')}" th:errors="*{price}"  ></td>
+			</tr>
+			
+			<tr>
+				<td>Daudzums</td>
+				<td> <input type="text" th:field="*{quantity}"  />  </td>
+				<td th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"  ></td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td> <input type="submit" title="Saglabāt" />  </td>
+			</tr>
+		</table>
+		
+	</form>
+	
+</body>
+
+</html>
