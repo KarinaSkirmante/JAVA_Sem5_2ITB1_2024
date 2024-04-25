@@ -54,65 +54,13 @@ public class FirstController {
 	// get mapping funkciju, kura pados sarakstu no vismaz 3 produktiem
 	// html kods, kas so sarakstu avr parādīt
 
-	@GetMapping("/product/all") // localhost:8080/product/all
-	public String getProductAll(Model model) {
-		try {
-			model.addAttribute("myobjs", crudService.retrieveAll());
-			return "show-product-all-page"; // tiek parādīta show-product-all-page.html lapa
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
-		}
-	}
+	
 
-	@GetMapping("/productone") // localhost:8080/productone?id=2
-	public String getProductoneId(@RequestParam("id") int id, Model model) {
+	
 
-		try {
-			model.addAttribute("myobj", crudService.retrieveById(id));
-			return "show-product-page";// tiek parādīta show-product-pahe.html lapa
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
-		}
 
-	}
 
-	@GetMapping("/product/all/{id}") // localhost:8080/product/all/2
-	public String getProductAllId(@PathVariable("id") int id, Model model) {
 
-		try {
-			model.addAttribute("myobj", crudService.retrieveById(id));
-			return "show-product-page";// tiek parādīta show-product-pahe.html lapa
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
-		}
-
-	}
-
-	@GetMapping("/product/insert") // localhost:8080/product/insert
-	public String getProductInsert(Model model) {
-		model.addAttribute("product", new Product());// padodam tuksu produktu, kuru aizpildīs html pusē
-		return "insert-product-page";// tiek parādīta insert-product-page.html lapa, kurā varēs ievadīt datus
-	}
-
-	@PostMapping("/product/insert")
-	public String postProductInsert(@Valid Product product, BindingResult result) {// iegūst aizpildītu produktu
-
-		if (result.hasErrors()) {
-			return "insert-product-page";
-		} else {
-
-			try {
-				crudService.create(product);
-				return "redirect:/product/all";
-			} catch (Exception e) {
-				return "redirect:/error";// pārlec uz citu endpointu
-			}
-		}
-
-	}
 
 	@GetMapping("/error") // localhost:8080/error
 	public String getError() {
@@ -121,55 +69,10 @@ public class FirstController {
 
 
 	
-	@GetMapping("/product/update") //localhost:8080/product/update?id=2
-	public String getProductUpateById(@RequestParam("id") int id, Model model ) {
-		
-		try {
-			Product product = crudService.retrieveById(id);
-			model.addAttribute("product", product);
-			model.addAttribute("id", id);
-			return "update-product-page";//tiek parādīta update-product-page.html lapa
-				
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
-		}
-		
-		
-	}
 	
 	
-	@PostMapping("/product/update")
-	public String postProductInsert(@RequestParam("id") int id,  @Valid Product product, BindingResult result, Model model) {// iegūst redigēto produktu
-
-		if (result.hasErrors()) {
-			model.addAttribute("id", id);
-			return "update-product-page";
-		} else {
-
-			try {
-				crudService.updateById(id, product);
-				return "redirect:/product/all/" + id;
-			} catch (Exception e) {
-				return "redirect:/error";// pārlec uz citu endpointu
-			}
-		}
-
-	}
 	
 	
-	@GetMapping("/product/delete") //localhost:8080/product/delete?id=2
-	public String getProductDeleteById(@RequestParam("id") int id, Model model) {
-		
-		try {
-			crudService.deleteById(id);
-			model.addAttribute("myobjs", crudService.retrieveAll());
-			return "show-product-all-page"; // tiek parādīta show-product-all-page.html lapa	
-		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
-		}
-	}
 	
 	
 	
