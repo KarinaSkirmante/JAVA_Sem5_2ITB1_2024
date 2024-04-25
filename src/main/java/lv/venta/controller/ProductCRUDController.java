@@ -25,6 +25,7 @@ public class ProductCRUDController {
 	public String getProductAll(Model model) {
 		try {
 			model.addAttribute("myobjs", crudService.retrieveAll());
+			model.addAttribute("mytitle", "All products");
 			return "show-product-all-page"; // tiek parādīta show-product-all-page.html lapa
 		} catch (Exception e) {
 			model.addAttribute("msg", e.getMessage());

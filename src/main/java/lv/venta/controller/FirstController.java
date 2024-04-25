@@ -23,8 +23,6 @@ public class FirstController {
 	@Autowired
 	private ICRUDProductService crudService;
 
-	@Autowired
-	private IFilterProductService filterService;
 
 	@GetMapping("/hello") // localhost:8080/hello
 	public String getHello() {

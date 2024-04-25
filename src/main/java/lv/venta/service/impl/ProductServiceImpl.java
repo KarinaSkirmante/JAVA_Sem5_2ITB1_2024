@@ -112,8 +112,8 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 		ArrayList<Product> filteredProducts = new ArrayList<>();
 		for(Product tempP: allProducts)
 		{
-			if(tempP.getTitle().contains(searchText) ||
-					tempP.getDescription().contains(searchText)) {
+			if(tempP.getTitle().toLowerCase().contains(searchText.toLowerCase()) ||
+					tempP.getDescription().toLowerCase().contains(searchText.toLowerCase())) {
 				filteredProducts.add(tempP);
 			}
 		}
