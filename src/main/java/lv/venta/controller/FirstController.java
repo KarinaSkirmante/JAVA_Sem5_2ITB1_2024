@@ -158,7 +158,18 @@ public class FirstController {
 	}
 	
 	
-	
+	@GetMapping("/product/delete") //localhost:8080/product/delete?id=2
+	public String getProductDeleteById(@RequestParam("id") int id, Model model) {
+		
+		try {
+			crudService.deleteById(id);
+			model.addAttribute("myobjs", crudService.retrieveAll());
+			return "show-product-all-page"; // tiek parādīta show-product-all-page.html lapa	
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+			return "error-page"; // tiek parādīta error-page.html lapa
+		}
+	}
 	
 	
 	
