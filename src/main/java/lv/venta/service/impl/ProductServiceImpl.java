@@ -79,14 +79,9 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 	public ArrayList<Product> filterProductByPriceThreshold(float priceThreshold) throws Exception {
 		if(priceThreshold < 0 || priceThreshold > 10000) throw new Exception("Wrong price threshold");
 		
-		ArrayList<Product> filteredProducts = new ArrayList<>();
-		for(Product tempP: allProducts)
-		{
-			if(tempP.getPrice() <= priceThreshold) {
-				filteredProducts.add(tempP);
-			}
-		}
-		
+		ArrayList<Product> filteredProducts = 
+				productRepo.findByPriceLessThanEqual(priceThreshold);
+
 		return filteredProducts;
 		
 	}
@@ -95,28 +90,16 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 	public ArrayList<Product> filterProductByQuantityThreshold(int quantityThreshold) throws Exception {
 		if(quantityThreshold < 0 || quantityThreshold > 100) throw new Exception("Wrong quantity threshold");
 		
-		ArrayList<Product> filteredProducts = new ArrayList<>();
-		for(Product tempP: allProducts)
-		{
-			if(tempP.getQuantity() <= quantityThreshold) {
-				filteredProducts.add(tempP);
-			}
-		}
-		
+		ArrayList<Product> filteredProducts = 
+				productRepo.findByQuantityLessThanEqual(quantityThreshold);
 		return filteredProducts;
 	}
 
 	@Override
 	public ArrayList<Product> filterByTitleOrDescription(String searchText) throws Exception {
 		if(searchText == null) throw new Exception("Wrong search text");
-		ArrayList<Product> filteredProducts = new ArrayList<>();
-		for(Product tempP: allProducts)
-		{
-			if(tempP.getTitle().toLowerCase().contains(searchText.toLowerCase()) ||
-					tempP.getDescription().toLowerCase().contains(searchText.toLowerCase())) {
-				filteredProducts.add(tempP);
-			}
-		}
+		ArrayList<Product> filteredProducts =
+				productRepo.findByTitleLikeIgnoreCaseOrDescriptionLikeIgnoreCase(searchText, searchText);
 		
 		return filteredProducts;	
 	}
