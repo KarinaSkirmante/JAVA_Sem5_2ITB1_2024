@@ -3,21 +3,19 @@ package lv.venta.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lv.venta.model.Product;
+import lv.venta.repo.IProductRepo;
 import lv.venta.service.ICRUDProductService;
 import lv.venta.service.IFilterProductService;
 
 @Service
 public class ProductServiceImpl implements ICRUDProductService, IFilterProductService{
 
-	
-	private ArrayList<Product> allProducts = new ArrayList<>(
-			Arrays.asList(
-					new Product("Abols", "Sarkans", 0.99f, 5),
-					new Product("Zemene", "Salda", 1.23f, 3),
-					new Product("Arbuzs", "Roza", 3.99f, 2)));
+	@Autowired
+	private IProductRepo productRepo;
 	
 	@Override
 	public Product create(Product product) throws Exception {
@@ -40,18 +38,17 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 
 	@Override
 	public ArrayList<Product> retrieveAll() throws Exception {
-		if(allProducts.isEmpty()) throw new Exception("Product list is empty");
-		return allProducts;
+		if(productRepo.count() == 0) throw new Exception("Product table is empty");
+		return (ArrayList<Product>) productRepo.findAll();
 	}
 
 	@Override
 	public Product retrieveById(int id) throws Exception {
 		if(id < 0) throw new Exception("Id should be positive");
 		
-		for(Product tempP: allProducts) {
-			if(tempP.getId() == id) {
-				return tempP;
-			}
+		if(productRepo.existsById(id))
+		{
+			return productRepo.findById(id).get();
 		}
 		
 		throw new Exception("Product with " + id + " is not found");
@@ -65,13 +62,14 @@ public class ProductServiceImpl implements ICRUDProductService, IFilterProductSe
 		updateProduct.setDescription(product.getDescription());
 		updateProduct.setQuantity(product.getQuantity());
 		updateProduct.setPrice(product.getPrice());
+		productRepo.save(updateProduct);//notiek Update arī DB līmenī
 				
 	}
 
 	@Override
 	public Product deleteById(int id) throws Exception {
 		Product deleteProduct = retrieveById(id);
-		allProducts.remove(deleteProduct);
+		productRepo.delete(deleteProduct);
 		return deleteProduct;	
 	}
 
