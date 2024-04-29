@@ -30,7 +30,7 @@ public interface IProductRepo extends CrudRepository<Product, Integer>{
 	//public abstract pēc nosklusējuma
 	//izfiltrēs visus produktus, kuru nosaukums vai apraksts satur konkrēto tesktu (1. un 2. argumns ir vienāds izsaukumā)
 	//SELECT * FROM PRODUCT_TABLE WHERE UPPER(TITLE) LIKE  "%UPPER(1.arguments)%" OR UPPER(DESCRIPTION) LIKE "%UPPER(2.arguments)%"
-	ArrayList<Product> findByTitleLikeIgnoreCaseOrDescriptionLikeIgnoreCase(String searchText, String searchText2);
+	ArrayList<Product> findByTitleIgnoreCaseContainingOrDescriptionIgnoreCaseContaining(String searchText, String searchText2);
 
 	//public abstract pēc nosklusējuma
 	@Query(nativeQuery = true, value = "SELECT SUM(PRICE * QUANTITY) FROM PRODUCT_TABLE;")
