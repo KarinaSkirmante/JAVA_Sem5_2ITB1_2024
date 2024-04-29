@@ -2,6 +2,7 @@ package lv.venta.repo;
 
 import java.util.ArrayList;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import lv.venta.model.Product;
@@ -30,5 +31,9 @@ public interface IProductRepo extends CrudRepository<Product, Integer>{
 	//izfiltrēs visus produktus, kuru nosaukums vai apraksts satur konkrēto tesktu (1. un 2. argumns ir vienāds izsaukumā)
 	//SELECT * FROM PRODUCT_TABLE WHERE UPPER(TITLE) LIKE  "%UPPER(1.arguments)%" OR UPPER(DESCRIPTION) LIKE "%UPPER(2.arguments)%"
 	ArrayList<Product> findByTitleLikeIgnoreCaseOrDescriptionLikeIgnoreCase(String searchText, String searchText2);
+
+	//public abstract pēc nosklusējuma
+	@Query(nativeQuery = true, value = "SELECT SUM(PRICE * QUANTITY) FROM PRODUCT_TABLE;")
+	float calculateTotalValueOfDBProducts();
 
 }
