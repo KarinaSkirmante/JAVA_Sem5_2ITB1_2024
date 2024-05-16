@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import lv.venta.model.MyUser;
 
-public interface MyUserRepo extends CrudRepository<MyUser, Integer>{
+public interface IMyUserRepo extends CrudRepository<MyUser, Integer>{
 
 }
