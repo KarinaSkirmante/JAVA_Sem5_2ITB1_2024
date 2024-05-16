@@ -3,6 +3,8 @@ package lv.venta.config;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -13,6 +15,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import lv.venta.repo.MyUserDetailsServiceImpl;
 
 
 //TODO 
@@ -29,37 +33,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class MyWebSecurityConfig{
 	
-	
 	@Bean
-	public UserDetailsService testUsers() {
+	public DaoAuthenticationProvider linkWithDB() {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		UserDetails u1Details = 
-				User
-				.builder()
-				.username("admin")
-				.password(encoder.encode("123456"))
-				.authorities("ADMIN")
-				.build();
+
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(encoder);
+		provider.setUserDetailsService(new MyUserDetailsServiceImpl());
 		
-		UserDetails u2Details = 
-				User
-				.builder()
-				.username("karina")
-				.password(encoder.encode("654321"))
-				.authorities("USER")
-				.build();
-		
-		UserDetails u3Details = 
-				User
-				.builder()
-				.username("janis")
-				.password(encoder.encode("098765"))
-				.authorities("USER", "ADMIN")
-				.build();
-		
-		return new InMemoryUserDetailsManager(u1Details, u2Details, u3Details);
-		
+		return provider;
 	}
+	
+	
 	
 	@Bean
 	public SecurityFilterChain configureEndpoints(HttpSecurity http) throws Exception {
