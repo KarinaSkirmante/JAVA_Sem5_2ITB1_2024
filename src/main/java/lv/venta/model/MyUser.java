@@ -20,7 +20,7 @@ import lombok.ToString;
 @Entity
 public class MyUser {
 	
-	@Column(name = "Idp")
+	@Column(name = "Idu")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long idu;
