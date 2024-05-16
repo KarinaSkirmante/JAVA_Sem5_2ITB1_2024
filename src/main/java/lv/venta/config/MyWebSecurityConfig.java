@@ -77,9 +77,12 @@ public class MyWebSecurityConfig{
 			.requestMatchers("/product/delete**").hasAuthority("ADMIN")
 			.requestMatchers("/product/info/filter/**").hasAuthority("USER")
 			.requestMatchers("/product/info/total").hasAuthority("ADMIN")
+			.requestMatchers("h2-console").hasAuthority("ADMIN")
 			);
 			
 			http.formLogin(form -> form.permitAll());
+			http.csrf(csrf-> csrf.disable());
+			http.headers(frame-> frame.frameOptions(option->option.disable()));
 			
 		return http.build();
 	
