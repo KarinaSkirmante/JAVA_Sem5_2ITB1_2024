@@ -37,7 +37,6 @@ public class MyUser {
 	private String username;
 	
 	@NotNull
-	@Size(min = 3, max = 20)
 	@Column(name = "Password")
 	private String password;
 	
