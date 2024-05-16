@@ -70,18 +70,17 @@ public class MyWebSecurityConfig{
 			.requestMatchers("/hello/msg").permitAll()
 			.requestMatchers("/product/test").hasAuthority("ADMIN")//tikai adminam
 			.requestMatchers("/product/all").permitAll()
-			.requestMatchers("/product/one?id=**").permitAll()
+			.requestMatchers("/product/one**").permitAll()
 			.requestMatchers("/product/all/**").permitAll()
 			.requestMatchers("/product/insert").hasAuthority("ADMIN")
-			.requestMatchers("/product/update?id=**").hasAuthority("ADMIN")
-			.requestMatchers("/product/delete?id=**").hasAuthority("ADMIN")
+			.requestMatchers("/product/update**").hasAuthority("ADMIN")
+			.requestMatchers("/product/delete**").hasAuthority("ADMIN")
 			.requestMatchers("/product/info/filter/**").hasAuthority("USER")
 			.requestMatchers("/product/info/total").hasAuthority("ADMIN")
 			);
 			
-			http.formLogin().permitAll();
-
-
+			http.formLogin(form -> form.permitAll());
+			
 		return http.build();
 	
 	}
