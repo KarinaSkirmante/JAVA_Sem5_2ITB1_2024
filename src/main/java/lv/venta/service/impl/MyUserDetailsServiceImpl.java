@@ -1,4 +1,4 @@
-package lv.venta.repo;
+package lv.venta.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import lv.venta.config.MyUserDetails;
 import lv.venta.model.MyUser;
+import lv.venta.repo.IMyUserRepo;
+
 
 @Service
 public class MyUserDetailsServiceImpl implements UserDetailsService{

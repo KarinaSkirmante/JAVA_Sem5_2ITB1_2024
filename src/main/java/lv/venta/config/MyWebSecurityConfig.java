@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import lv.venta.repo.MyUserDetailsServiceImpl;
+import lv.venta.service.impl.MyUserDetailsServiceImpl;
 
 
 //TODO 
@@ -33,13 +33,22 @@ import lv.venta.repo.MyUserDetailsServiceImpl;
 @EnableWebSecurity
 public class MyWebSecurityConfig{
 	
+	
+	
+	@Bean
+	public MyUserDetailsServiceImpl userDetailsManager() {
+		MyUserDetailsServiceImpl manager = new MyUserDetailsServiceImpl();
+		return manager;
+	}
+	
 	@Bean
 	public DaoAuthenticationProvider linkWithDB() {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsManager());
 		provider.setPasswordEncoder(encoder);
-		provider.setUserDetailsService(new MyUserDetailsServiceImpl());
+
 		
 		return provider;
 	}
