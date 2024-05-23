@@ -21,7 +21,7 @@ public class Seminar5Application {
 		SpringApplication.run(Seminar5Application.class, args);
 	}
 	
-	@Bean //izsauksies sī funkcija automātiski līdz ko sistema būs palaista
+	//@Bean //izsauksies sī funkcija automātiski līdz ko sistema būs palaista
 	public CommandLineRunner testDatabaseLayer(IProductRepo productRepo,
 			IMyAuthorityRepo authRepo, IMyUserRepo userRepo) {
 		return new CommandLineRunner() {
