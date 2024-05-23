@@ -1,20 +1,26 @@
 package lv.venta.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lv.venta.model.Product;
 import lv.venta.service.ICRUDProductService;
 
-@Controller
+@RestController
 @RequestMapping("/product")
 public class ProductCRUDController {
 	
@@ -22,62 +28,51 @@ public class ProductCRUDController {
 	private ICRUDProductService crudService;
 	
 	@GetMapping("/all") // localhost:8080/product/all
-	public String getProductAll(Model model) {
+	public ResponseEntity getProductAll() {
 		try {
-			model.addAttribute("myobjs", crudService.retrieveAll());
-			model.addAttribute("mytitle", "All products");
-			return "show-product-all-page"; // tiek parādīta show-product-all-page.html lapa
+			return new ResponseEntity<ArrayList<Product>>(crudService.retrieveAll(), HttpStatus.OK);
 		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
+			
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	
 	@GetMapping("/one") // localhost:8080/product/one?id=2
-	public String getProductoneId(@RequestParam("id") int id, Model model) {
+	public ResponseEntity getProductoneId(@RequestParam("id") int id) {
 
 		try {
-			model.addAttribute("myobj", crudService.retrieveById(id));
-			return "show-product-page";// tiek parādīta show-product-pahe.html lapa
+			return new ResponseEntity<Product>(crudService.retrieveById(id), HttpStatus.OK);
 		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
 		}
 
 	}
 	
 	@GetMapping("/all/{id}") // localhost:8080/product/all/2
-	public String getProductAllId(@PathVariable("id") int id, Model model) {
-
+	public ResponseEntity getProductAllId(@PathVariable("id") int id) {
 		try {
-			model.addAttribute("myobj", crudService.retrieveById(id));
-			return "show-product-page";// tiek parādīta show-product-pahe.html lapa
+			return new ResponseEntity<Product>(crudService.retrieveById(id), HttpStatus.OK);
 		} catch (Exception e) {
-			model.addAttribute("msg", e.getMessage());
-			return "error-page"; // tiek parādīta error-page.html lapa
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 	
-	@GetMapping("/insert") // localhost:8080/product/insert
-	public String getProductInsert(Model model) {
-		model.addAttribute("product", new Product());// padodam tuksu produktu, kuru aizpildīs html pusē
-		return "insert-product-page";// tiek parādīta insert-product-page.html lapa, kurā varēs ievadīt datus
-	}
-
-	@PostMapping("/insert")
-	public String postProductInsert(@Valid Product product, BindingResult result) {// iegūst aizpildītu produktu
+	@PostMapping("/insert")//localhost:8080/product/insert
+	public ResponseEntity postProductInsert(@RequestBody @Valid Product product, BindingResult result) {// iegūst aizpildītu produktu
 
 		if (result.hasErrors()) {
-			return "insert-product-page";
+			return new ResponseEntity<String>("Problems with input params", HttpStatus.INTERNAL_SERVER_ERROR);
 		} else {
 
 			try {
 				crudService.create(product);
-				return "redirect:/product/all";
+				return new ResponseEntity(HttpStatus.OK);
 			} catch (Exception e) {
-				return "redirect:/error";// pārlec uz citu endpointu
+				return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
 			}
 		}
 

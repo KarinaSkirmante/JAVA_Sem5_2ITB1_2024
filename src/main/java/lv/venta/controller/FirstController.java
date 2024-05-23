@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lv.venta.model.Product;
 import lv.venta.service.ICRUDProductService;
 import lv.venta.service.IFilterProductService;
 
-@Controller
+@RestController
 public class FirstController {
 
 	@Autowired
